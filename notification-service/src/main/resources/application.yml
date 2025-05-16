@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: "NotificationService"
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/loan-app
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+server:
+  port: 8082

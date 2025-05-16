@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: "LoanEvaluationService"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+server:
+  port: 8083

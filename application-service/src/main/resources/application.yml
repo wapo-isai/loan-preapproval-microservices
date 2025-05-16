@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: ApplicationService
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/loan-app
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+feign:
+  client:
+    config:
+      LoanEvaluationFeignClient:
+        url: http://localhost:8083
+      default:
+        loggerLevel: full
+server:
+  port: 8082
+
+
+loan:
+  evaluation:
+    url: http://localhost:8083

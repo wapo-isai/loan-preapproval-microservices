@@ -1,0 +1,63 @@
+# === Global ignores ===
+.DS_Store
+Thumbs.db
+
+# === Java ===
+*.class
+*.jar
+*.war
+*.ear
+
+# === Gradle ===
+.gradle/
+build/
+out/
+
+# === Spring Boot ===
+target/
+logs/
+*.log
+
+# === IDEs ===
+# IntelliJ
+.idea/
+*.iml
+*.iws
+
+# VSCode
+.vscode/
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# === Environment & Secrets ===
+.env
+*.local
+*.secret
+*.key
+*.pem
+*.crt
+keystore.*
+
+# === OS Generated ===
+ehthumbs.db
+Icon?
+Desktop.ini
+
+# === Node (if frontend or UI appears later) ===
+node_modules/
+dist/
+
+# === Specific to each service ===
+**/build/
+**/out/
+**/.classpath
+**/.project
+**/.settings
+**/*.iml
+
+# === Logs ===
+**/*.log
+logs/

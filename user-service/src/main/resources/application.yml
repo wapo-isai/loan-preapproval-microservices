@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: UserService
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/loan-app
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+server:
+  port: 8081 # Port for the User Service (as referenced by the Gateway)
+
+jwt:
+  secret: rYbC6ShvZWE6DnZ1/htcxS1VPwN1Ggon5ucF2WjUVc37dPCkPkn63SxlYdg6+Abp7HIoG5ko4vAO7RDO+4VZhw==
+  expirationMs: 3600000 # 1 hour
+
+logging:
+  level:
+    com.loanapproval.userservice: DEBUG
