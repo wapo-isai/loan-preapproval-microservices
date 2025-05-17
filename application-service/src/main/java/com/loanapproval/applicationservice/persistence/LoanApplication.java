@@ -1,9 +1,12 @@
 package com.loanapproval.applicationservice.persistence;
 
+import com.loanapproval.applicationservice.dto.TimelineEvent;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Document(collection = "loanApplications")
 public class LoanApplication {
@@ -17,12 +20,18 @@ public class LoanApplication {
     private Double monthlyDebt;
     private Integer creditScore;
     private String employmentStatus;
-
-    private String status; // e.g. Submitted, Under Review, Approved, Rejected
+    private String status;
     private Date submittedAt;
     private Date updatedAt;
     private Boolean eligible;
     private String evaluationReason;
+
+    private List<TimelineEvent> timeline = new ArrayList<>(); // Initialize to prevent nulls
+    private String adminNotes; // New field for admin notes
+
+    public LoanApplication() {
+        this.timeline = new ArrayList<>(); // Ensure timeline is initialized
+    }
 
     public String getId() {
         return id;
@@ -126,5 +135,21 @@ public class LoanApplication {
 
     public void setEvaluationReason(String evaluationReason) {
         this.evaluationReason = evaluationReason;
+    }
+
+    public List<TimelineEvent> getTimeline() {
+        return timeline;
+    }
+
+    public void setTimeline(List<TimelineEvent> timeline) {
+        this.timeline = timeline;
+    }
+
+    public String getAdminNotes() {
+        return adminNotes;
+    }
+
+    public void setAdminNotes(String adminNotes) {
+        this.adminNotes = adminNotes;
     }
 }

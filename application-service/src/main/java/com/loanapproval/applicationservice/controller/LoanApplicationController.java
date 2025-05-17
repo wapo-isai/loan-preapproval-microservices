@@ -1,11 +1,13 @@
 package com.loanapproval.applicationservice.controller;
 
+import com.loanapproval.applicationservice.dto.AdminNotesUpdateRequest;
 import com.loanapproval.applicationservice.dto.StatusUpdateRequest;
 import com.loanapproval.applicationservice.persistence.LoanApplication;
 import com.loanapproval.applicationservice.service.LoanApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -17,7 +19,7 @@ public class LoanApplicationController {
     private LoanApplicationService service;
 
     @PostMapping
-    public ResponseEntity<LoanApplication> submit(@RequestBody LoanApplication app) {
+    public ResponseEntity<LoanApplication> submit(@RequestBody @Valid LoanApplication app) {
         return ResponseEntity.ok(service.submitApplication(app));
     }
 
@@ -33,8 +35,19 @@ public class LoanApplicationController {
 
     @PatchMapping("/{id}/status")
     public ResponseEntity<LoanApplication> updateStatus(
-            @PathVariable String id, @RequestBody StatusUpdateRequest request) {
+            @PathVariable String id, @RequestBody @Valid StatusUpdateRequest request) {
         return ResponseEntity.ok(service.updateStatus(id, request.getStatus()));
+    }
+
+
+    @PatchMapping("/{id}/notes")
+
+    public ResponseEntity<LoanApplication> updateAdminNotes(
+
+            @PathVariable String id, @RequestBody @Valid AdminNotesUpdateRequest request) {
+
+        return ResponseEntity.ok(service.updateAdminNotes(id, request.getNotes()));
+
     }
 
     @GetMapping

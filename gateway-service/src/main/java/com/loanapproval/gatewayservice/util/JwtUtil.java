@@ -25,13 +25,11 @@ public class JwtUtil {
 
     @PostConstruct
     public void init() {
-        logger.debug("Base64 Encoded Secret from properties: [{}]", base64EncodedSecretKey); // Log the string
+        // Decode the Base64 string from properties into byte array
         byte[] keyBytes = Base64.getDecoder().decode(base64EncodedSecretKey);
-        // Log the length and maybe a hash or a few bytes to compare, NOT the full keyBytes for security.
-        logger.debug("Decoded keyBytes length: {}", keyBytes.length);
-        logger.debug("First 5 decoded keyBytes (example): {}, {}, {}, {}, {}", keyBytes.length > 0 ? keyBytes[0] : "N/A", keyBytes.length > 1 ? keyBytes[1] : "N/A", keyBytes.length > 2 ? keyBytes[2] : "N/A", keyBytes.length > 3 ? keyBytes[3] : "N/A", keyBytes.length > 4 ? keyBytes[4] : "N/A" );
+        // Reconstruct the key using the decoded bytes.
+        // Keys.hmacShaKeyFor is designed for HMAC-SHA algorithms and will create a SecretKeySpec.
         this.key = Keys.hmacShaKeyFor(keyBytes);
-        logger.debug("Initialized java.security.Key object: {}", key);
     }
 
     public Claims getAllClaimsFromToken(String token) {
@@ -42,7 +40,7 @@ public class JwtUtil {
         try {
             return getAllClaimsFromToken(token).getExpiration().before(new Date());
         } catch (Exception e) {
-            return true; // If parsing fails (e.g., due to expiration or malformation), treat as expired/invalid
+            return true;
         }
     }
 

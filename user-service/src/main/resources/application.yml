@@ -1,4 +1,9 @@
 spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB   # Must be >= MAX_FILE_SIZE_BYTES in DocumentService
+      max-request-size: 11MB
   application:
     name: UserService
   data:
@@ -16,8 +21,18 @@ server:
 
 jwt:
   secret: rYbC6ShvZWE6DnZ1/htcxS1VPwN1Ggon5ucF2WjUVc37dPCkPkn63SxlYdg6+Abp7HIoG5ko4vAO7RDO+4VZhw==
-  expirationMs: 3600000 # 1 hour
+  expirationMs: 86400000
 
 logging:
   level:
     com.loanapproval.userservice: DEBUG
+
+aws:
+  region: YOUR_AWS_REGION # e.g., us-east-1
+  s3:
+    bucket-name: YOUR_S3_BUCKET_NAME
+    # For local development, you can use accessKey and secretKey (less secure, avoid for production)
+    # accessKey: YOUR_AWS_ACCESS_KEY
+    # secretKey: YOUR_AWS_SECRET_KEY
+    presigned-url-duration-minutes: 15
+

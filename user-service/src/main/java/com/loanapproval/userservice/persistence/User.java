@@ -21,15 +21,32 @@ public class User {
     @NotBlank
     @Size(max = 100)
     @Email
+    @org.springframework.data.mongodb.core.index.Indexed(unique = true) // Ensure email is unique in MongoDB
     private String email;
-
     @NotBlank
     @Size(max = 120)
     private String passwordHash;
-    private String employmentStatus;
+
+    @Size(max = 200)
+    private String streetAddress;
+
+    @Size(max = 100)
+    private String city;
+
+    @Size(max = 50)
+    private String state; // e.g., "CA", "NY"
+
+    @Size(max = 20)
+    private String zipCode;
+    @Size(max = 100)
+    private String employmentStatus; // e.g., "Employed", "Self-Employed"
+
+    @Size(max = 500)
+    private String employmentDetails; // Free text for employer, position, duration
     private Date createdAt;
     private Date updatedAt;
 
+//    @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> roles = new HashSet<>();
 
     public User() {}
@@ -38,9 +55,9 @@ public class User {
         this.fullName = fullName;
         this.email = email;
         this.passwordHash = passwordHash;
-        this.employmentStatus = employmentStatus;
         this.createdAt = new Date();
         this.updatedAt = new Date();
+        this.roles.add("ROLE_USER"); // Default role
     }
     
     // Getters
@@ -107,5 +124,45 @@ public class User {
 
     public void setRoles(Set<String> roles) {
         this.roles = roles;
+    }
+
+    public String getStreetAddress() {
+        return streetAddress;
+    }
+
+    public void setStreetAddress(String streetAddress) {
+        this.streetAddress = streetAddress;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public String getEmploymentDetails() {
+        return employmentDetails;
+    }
+
+    public void setEmploymentDetails(String employmentDetails) {
+        this.employmentDetails = employmentDetails;
     }
 }

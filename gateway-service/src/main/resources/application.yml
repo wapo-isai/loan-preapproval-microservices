@@ -22,13 +22,8 @@ spring:
 
 jwt:
   secret: rYbC6ShvZWE6DnZ1/htcxS1VPwN1Ggon5ucF2WjUVc37dPCkPkn63SxlYdg6+Abp7HIoG5ko4vAO7RDO+4VZhw==
-  expirationMs: 3600000 # 1 hour
+  expirationMs: 86400000
 
 logging:
   level:
-    root: DEBUG # Temporarily to catch all debug logs
-    org.springframework.web.cors: TRACE
     org.springframework.cloud.gateway: DEBUG # Keep this
-    com.loanapproval.gatewayservice.filter: DEBUG # Keep this, ensure package is exact
-    org.springframework.security: TRACE # Keep this
-    io.jsonwebtoken: DEBUG # Add this to see JJWT internal logs if any

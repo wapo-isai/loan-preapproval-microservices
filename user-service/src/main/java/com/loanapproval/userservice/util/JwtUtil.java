@@ -12,9 +12,8 @@ import org.springframework.stereotype.Component;
 
 import jakarta.annotation.PostConstruct;
 
-import javax.crypto.SecretKey;
-//import java.security.Key;
-import java.nio.charset.StandardCharsets;
+import java.security.Key;
+
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
@@ -26,16 +25,20 @@ public class JwtUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtUtil.class);
     @Value("${jwt.secret}")
-    private String secret;
+    private String base64EncodedSecretKey;
 
     @Value("${jwt.expirationMs}")
     private long expirationMs;
 
-    private SecretKey key;
+    private Key key;
 
     @PostConstruct
     public void init() {
-        this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+        // Decode the Base64 string from properties into byte array
+        byte[] keyBytes = Base64.getDecoder().decode(base64EncodedSecretKey);
+        // Reconstruct the key using the decoded bytes.
+        // Keys.hmacShaKeyFor is designed for HMAC-SHA algorithms and will create a SecretKeySpec.
+        this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
     public String generateToken(User user) {
@@ -44,18 +47,17 @@ public class JwtUtil {
         claims.put("fullName", user.getFullName());
 
         Date now = new Date();
-        Date expiryDate = new Date(System.currentTimeMillis() + expirationMs);
+        Date expiryDate = new Date(now.getTime() + expirationMs);
 
         return Jwts.builder()
                 .setClaims(claims)
-                .setSubject(user.getEmail()) // Or user.getId().toString()
+                .setSubject(user.getEmail())
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
-                .signWith(key, SignatureAlgorithm.HS512) // Specify HS512 here if not inferred
+                .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
     }
 
-//     Methods to validate token (primarily for API Gateway, but can be here too)
     public Claims getAllClaimsFromToken(String token) {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
     }

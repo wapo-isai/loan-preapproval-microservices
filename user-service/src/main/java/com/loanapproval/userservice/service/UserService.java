@@ -16,6 +16,7 @@ import com.loanapproval.userservice.exception.UserNotFoundException;
 import com.loanapproval.userservice.persistence.User;
 import com.loanapproval.userservice.persistence.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 public class UserService {
@@ -66,7 +67,7 @@ public class UserService {
             if (passwordEncoder.matches(signInRequest.getPassword(), user.getPasswordHash())) {
                 String token = jwtUtil.generateToken(user);
                 List<String> roles = user.getRoles().stream().collect(Collectors.toList());
-                AuthResponse authResponse = new AuthResponse(token, user.getId(), user.getEmail(), user.getFullName(), roles);
+                AuthResponse authResponse = new AuthResponse(token, user.getId(), user.getEmail(), user.getFullName(), user.getStreetAddress(), user.getCity(), user.getState(), user.getZipCode(), user.getEmploymentStatus(), user.getEmploymentDetails(), roles);
                 return Optional.of(authResponse);
             }
         }
@@ -77,12 +78,26 @@ public class UserService {
         User userToUpdate = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
 
-        if (request.getFullName() != null && !request.getFullName().isEmpty()) {
+        if (StringUtils.hasText(request.getFullName())) {
             userToUpdate.setFullName(request.getFullName());
         }
-
-        if (request.getEmploymentStatus() != null && !request.getEmploymentStatus().isEmpty()) {
+        if (StringUtils.hasText(request.getStreetAddress())) {
+            userToUpdate.setStreetAddress(request.getStreetAddress());
+        }
+        if (StringUtils.hasText(request.getCity())) {
+            userToUpdate.setCity(request.getCity());
+        }
+        if (StringUtils.hasText(request.getState())) {
+            userToUpdate.setState(request.getState());
+        }
+        if (StringUtils.hasText(request.getZipCode())) {
+            userToUpdate.setZipCode(request.getZipCode());
+        }
+        if (StringUtils.hasText(request.getEmploymentStatus())) {
             userToUpdate.setEmploymentStatus(request.getEmploymentStatus());
+        }
+        if (StringUtils.hasText(request.getEmploymentDetails())) {
+            userToUpdate.setEmploymentDetails(request.getEmploymentDetails());
         }
 
         userToUpdate.setUpdatedAt(new Date());
