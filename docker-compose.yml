@@ -1,0 +1,99 @@
+services:
+  kafka:
+    image: docker.io/bitnami/kafka:3.9
+    ports:
+      - "9092:9092"
+    environment:
+      # KRaft settings
+      - KAFKA_CFG_NODE_ID=0
+      - KAFKA_CFG_PROCESS_ROLES=controller,broker
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:9093
+      # Listeners
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: mortgage-ease
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+
+  eureka-service:
+    image: "wapinho2016/eureka-service"
+    container_name: eureka-service
+    ports:
+      - "8761:8761"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+
+  gateway-service:
+    image: "wapinho2016/gateway-service"
+    container_name: gateway-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      - eureka-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+
+  application-service:
+    image: "wapinho2016/application-service"
+    container_name: application-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      - mongo
+      - kafka
+      - loan-evaluation-service
+      - eureka-service
+      - gateway-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+
+  loan-evaluation-service:
+    image: "wapinho2016/loan-evaluation-service"
+    container_name: loan-evaluation-service
+    ports:
+      - "8083:8083"
+    depends_on:
+      - postgres
+      - eureka-service
+      - gateway-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+
+  notification-service:
+    image: "wapinho2016/notification-service"
+    container_name: notification-service
+    ports:
+      - "8084:8084"
+    depends_on:
+      - mongo
+      - kafka
+      - eureka-service
+      - gateway-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+
+  user-service:
+    image: "wapinho2016/user-service"
+    container_name: user-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mongo
+      - eureka-service
+      - gateway-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker

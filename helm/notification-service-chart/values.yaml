@@ -1,0 +1,54 @@
+replicaCount: 1
+
+fullnameOverride: notification-service
+
+image:
+  repository: wapinho2016/notification-service
+  tag: latest
+  pullPolicy: IfNotPresent
+  args: []
+
+ports:
+  - name: http
+    containerPort: 80
+    protocol: TCP
+
+env:
+  SPRING_PROFILES_ACTIVE: "docker"
+  SPRING_CONFIG_LOCATION: file:/config-repo/application.yml,file:/config-repo/notification-service.yml
+
+livenessProbe_enabled: true
+livenessProbe:
+  httpGet:
+    scheme: HTTP
+    path: /actuator/health/liveness
+    port: 80
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  timeoutSeconds: 2
+  failureThreshold: 20
+  successThreshold: 1
+
+readinessProbe_enabled: true
+readinessProbe:
+  httpGet:
+    scheme: HTTP
+    path: /actuator/health/readiness
+    port: 80
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  timeoutSeconds: 2
+  failureThreshold: 3
+  successThreshold: 1
+
+configmap:
+  enabled: true
+  mountPath: /config-repo
+
+service:
+  type: ClusterIP
+  ports:
+    - port: 8084
+      targetPort: 8084
+      protocol: TCP
+      name: http

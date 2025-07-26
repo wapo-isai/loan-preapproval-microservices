@@ -1,0 +1,6 @@
+dependencies:
+- name: mortgage-ease-common
+  repository: file://../mortgage-ease-common
+  version: 0.1.0
+digest: sha256:d7213ac45a9837f8f0d51199f7a626317c0cb431e9a31150038be529d04b5f4d
+generated: "2025-07-25T14:39:17.859195-04:00"

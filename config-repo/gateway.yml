@@ -1,0 +1,49 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      routes:
+        - id: user-service-auth
+          uri: lb://user-service
+          predicates:
+            - Path=/auth/**
+        - id: application-service
+          uri: lb://application-service
+          predicates:
+            - Path=/api/applications/**
+        - id: loan-evaluation-service
+          uri: lb://loan-evaluation-service
+          predicates:
+            - Path=/api/evaluation/**
+        - id: notification-service
+          uri: lb://notification-service
+          predicates:
+            - Path=/api/notifications/**
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+jwt:
+  secret: rYbC6ShvZWE6DnZ1/htcxS1VPwN1Ggon5ucF2WjUVc37dPCkPkn63SxlYdg6+Abp7HIoG5ko4vAO7RDO+4VZhw==
+  expirationMs: 86400000
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-service:8761/eureka/

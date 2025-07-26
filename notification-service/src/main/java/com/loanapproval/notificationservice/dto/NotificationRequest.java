@@ -29,4 +29,3 @@ public class NotificationRequest {
         this.message = message;
     }
 }
-

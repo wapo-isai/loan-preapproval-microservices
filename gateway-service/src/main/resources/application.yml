@@ -8,17 +8,26 @@ spring:
     gateway:
       routes:
         - id: user-service-auth
-          uri: http://localhost:8081
+          uri: lb://user-service
           predicates:
             - Path=/auth/**
         - id: application-service
-          uri: http://localhost:8082
+          uri: lb://application-service
           predicates:
             - Path=/api/applications/**
         - id: loan-evaluation-service
-          uri: http://localhost:8083
+          uri: lb://loan-evaluation-service
           predicates:
             - Path=/api/evaluation/**
+        - id: notification-service
+          uri: lb://notification-service
+          predicates:
+            - Path=/api/notifications/**
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
 
 jwt:
   secret: rYbC6ShvZWE6DnZ1/htcxS1VPwN1Ggon5ucF2WjUVc37dPCkPkn63SxlYdg6+Abp7HIoG5ko4vAO7RDO+4VZhw==
@@ -26,4 +35,4 @@ jwt:
 
 logging:
   level:
-    org.springframework.cloud.gateway: DEBUG # Keep this
+    org.springframework.cloud.gateway: DEBUG

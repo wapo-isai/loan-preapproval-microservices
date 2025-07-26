@@ -1,0 +1,6 @@
+management.endpoint.health.show-details: "ALWAYS"
+management.endpoints.web.exposure.include: "*"
+management.endpoint.health.probes.enabled: true
+
+server.shutdown: graceful
+spring.lifecycle.timeout-per-shutdown-phase: 10s

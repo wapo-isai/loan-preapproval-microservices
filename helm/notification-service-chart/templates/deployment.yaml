@@ -1,0 +1,1 @@
+{{- template "mortgage-ease-common.deployment" . -}}

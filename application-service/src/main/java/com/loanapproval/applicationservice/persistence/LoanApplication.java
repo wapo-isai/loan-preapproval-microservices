@@ -13,7 +13,7 @@ public class LoanApplication {
     @Id
     private String id;
 
-    private String userId; // Foreign key to UserService
+    private String userId;
     private Double homePrice;
     private Double loanAmount;
     private Double annualIncome;

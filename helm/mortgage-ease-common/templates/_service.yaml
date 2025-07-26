@@ -1,0 +1,16 @@
+{{- define "mortgage-ease-common.service" -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "mortgage-ease-common.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "mortgage-ease-common.name" . }}
+    helm.sh/chart: {{ include "mortgage-ease-common.chart" . }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }} # Direct access to .Values.service.type
+  ports:
+{{ toYaml .Values.service.ports | indent 4 }}
+  selector:
+    app.kubernetes.io/name: {{ include "mortgage-ease-common.name" . }}
+{{- end -}}

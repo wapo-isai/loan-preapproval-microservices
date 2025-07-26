@@ -21,7 +21,6 @@ import org.springframework.util.StringUtils;
 @Service
 public class UserService {
     private UserRepository userRepository;
-
     private final PasswordEncoder passwordEncoder;
     private JwtUtil jwtUtil;
 
@@ -40,8 +39,6 @@ public class UserService {
         User user = new User();
         user.setFullName(request.getFullName());
         user.setEmail(request.getEmail());
-
-        user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
 
         user.setEmploymentStatus(request.getEmploymentStatus());
         user.setCreatedAt(new Date());
