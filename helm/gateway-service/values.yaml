@@ -4,7 +4,7 @@ fullnameOverride: gateway-service
 
 image:
   repository: wapinho2016/gateway-service
-  tag: latest
+  tag: 3.0.0
   pullPolicy: IfNotPresent
   args: []
 
@@ -22,7 +22,7 @@ livenessProbe:
   httpGet:
     scheme: HTTP
     path: /actuator/health/liveness
-    port: 80
+    port: 8080
   initialDelaySeconds: 10
   periodSeconds: 10
   timeoutSeconds: 2
@@ -34,7 +34,7 @@ readinessProbe:
   httpGet:
     scheme: HTTP
     path: /actuator/health/readiness
-    port: 80
+    port: 8080
   initialDelaySeconds: 10
   periodSeconds: 10
   timeoutSeconds: 2
@@ -46,9 +46,18 @@ configmap:
   mountPath: /config-repo
 
 service:
-  type: LoadBalancer
+  type: NodePort
   ports:
     - port: 8080
       targetPort: 8080
+      nodePort: 30080
       protocol: TCP
       name: http
+
+resources:
+  requests:
+    cpu: "100m"
+    memory: "512Mi"
+  limits:
+    cpu: "500m"
+    memory: "768Mi"

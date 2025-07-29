@@ -4,10 +4,6 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:27017/loan-app
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
 
 server:
   port: 8081
@@ -18,7 +14,7 @@ jwt:
 
 logging:
   level:
-    com.loanapproval.userservice: DEBUG
+    com.loanapproval.userservice: TRACE
 
 ---
 spring:
@@ -28,8 +24,3 @@ spring:
   data:
     mongodb:
       uri: mongodb://mongodbuser:mongo@mongodb:27017/loan-app
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://eureka-service:8761/eureka/

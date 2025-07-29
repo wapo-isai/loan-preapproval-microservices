@@ -4,3 +4,10 @@ management.endpoint.health.probes.enabled: true
 
 server.shutdown: graceful
 spring.lifecycle.timeout-per-shutdown-phase: 10s
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-service:8761/eureka/

@@ -14,11 +14,6 @@ spring:
 server:
   port: 8083
 
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
-
 ---
 spring:
   config:
@@ -28,8 +23,3 @@ spring:
     url: jdbc:postgresql://postgres:5432/mortgage-ease
     username: postgres
     password: postgres
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://eureka-service:8761/eureka/

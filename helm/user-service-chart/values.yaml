@@ -4,7 +4,7 @@ fullnameOverride: user-service
 
 image:
   repository: wapinho2016/user-service
-  tag: latest
+  tag: 3.0.0
   pullPolicy: IfNotPresent
   args: []
 
@@ -22,7 +22,7 @@ livenessProbe:
   httpGet:
     scheme: HTTP
     path: /actuator/health/liveness
-    port: 80
+    port: 8081
   initialDelaySeconds: 10
   periodSeconds: 10
   timeoutSeconds: 2
@@ -34,7 +34,7 @@ readinessProbe:
   httpGet:
     scheme: HTTP
     path: /actuator/health/readiness
-    port: 80
+    port: 8081
   initialDelaySeconds: 10
   periodSeconds: 10
   timeoutSeconds: 2
@@ -52,3 +52,11 @@ service:
       targetPort: 8081
       protocol: TCP
       name: http
+
+resources:
+  requests:
+    cpu: "100m"
+    memory: "256Mi"
+  limits:
+    cpu: "500m"
+    memory: "768Mi"

@@ -24,11 +24,6 @@ spring:
           predicates:
             - Path=/api/notifications/**
 
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
-
 jwt:
   secret: rYbC6ShvZWE6DnZ1/htcxS1VPwN1Ggon5ucF2WjUVc37dPCkPkn63SxlYdg6+Abp7HIoG5ko4vAO7RDO+4VZhw==
   expirationMs: 86400000
@@ -42,8 +37,3 @@ spring:
   config:
     activate:
       on-profile: docker
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://eureka-service:8761/eureka/
